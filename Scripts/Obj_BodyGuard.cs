@@ -45,29 +45,32 @@ public class Obj_BodyGuard : MonoBehaviour
         var playerDist= playerVector.magnitude;
 
 
-        
-        //playerPos=  GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        // playerPos= player.transform.position;
+
 
         int sampling= 0;
 
-        if(cnt<(cntLimit-100)){
-            dispersion= 0;
-        }else{
-            dispersion= 100;
-        }
+        // if(cnt<(cntLimit-100)){
+        //     dispersion= 0;
+        // }else{
+        //     dispersion= 100;
+        // }
 
-        foreach(var guard in guards){
+        foreach(var sibling in guards){
             var pos= this.transform.position;
-            var guardPos= guard.transform.position;
-            var directionVector= guardPos-pos;
+            var sibPos= sibling.transform.position;
+            var directionVector= sibPos-pos;
             var dist= directionVector.magnitude;
-            if(dist<(radar+dispersion)){
+            if(dist<(radar)){
                 centroid+= directionVector;
-                centroid+= playerVector*playerGravity/10;
-                avgVel+= guard.objVel;
+                avgVel+= sibling.objVel;
                 sampling+= 1;
             }
+            if(playerDist>playerField){
+                centroid+= playerVector*playerGravity;
+            }
+            // else{
+            //     centroid-= playerVector*playerGravity*(playerField/playerDist)*0.55f;
+            // }
         } 
         centroid= centroid/sampling;
         avgVel= avgVel/sampling;
