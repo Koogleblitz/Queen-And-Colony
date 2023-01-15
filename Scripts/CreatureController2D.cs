@@ -64,6 +64,6 @@ public class CreatureController2D : MonoBehaviour
 
     private void Move()
     {
-        rigidbody2d.velocity = motionVector * speed;
+        rigidbody2d.velocity = motionVector.normalized * speed;
     }
 }

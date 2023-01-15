@@ -16,8 +16,8 @@ public class GameManager : MonoBehaviour
 
     // Greater ants needs more food and time spawn
 
-    public List<Transform> enemyList           = new List<Transform>();
-    public List<Transform> discoveredEnemyList = new List<Transform>();
+    public List<GameObject> enemyList = new List<GameObject>();
+    public List<GameObject> antList = new List<GameObject>();
 
     // number of frames between wave spawns
     [SerializeField] int framesUntilWave = 10 * 30; //10 sec @ 30fps 
@@ -65,13 +65,45 @@ public class GameManager : MonoBehaviour
                 {
                     // spawn them 100 units north of player
                     Vector3 spawnPosition = GameObject.Find("MainCharacter").transform.position;
-                    spawnPosition.y += 100;
+                    float plusx = Random.Range(0f,50f);
+                    spawnPosition.x += (Random.Range(0,2)*2-1)*plusx;
+                    spawnPosition.y += (Random.Range(0,2)*2-1)*Mathf.Sqrt(2500-plusx*plusx);
 
                     GameObject go = Instantiate(spawnType);
                     go.transform.position = spawnPosition;
+                    enemyList.Add(go);
                 }
             }
         }
+    }
+
+
+    public int FindCloestEnemy(Transform self, bool side) // true means true enemy :)
+    {
+        // GameObject nearestEnemy = null; // for that side
+        int nearind = -1;
+        List<GameObject> thelist = new List<GameObject>();
+        
+        if(side==true) {
+            thelist = enemyList;
+        }
+        else{
+            thelist = antList;
+        }
+        float minimumDistance = Mathf.Infinity;
+        for(int i=0;i<thelist.Length;i++)
+        // foreach(GameObject enemy in thelist)
+        {
+            GameObject enemy = thelist[i];
+            float distance = Vector3.Distance(self.position, enemy.transform.position);
+            if (distance < minimumDistance)
+            {
+                minimumDistance = distance;
+                // nearestEnemy = enemy;
+                nearind = -1;
+            }
+        }
+        return nearind;
     }
 
     public GameObject player;
