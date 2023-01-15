@@ -11,7 +11,6 @@ public class AntMoving : MonoBehaviour
     float timer = 0f;
 
     Transform self;
-    public List<Transform> EnemyList;
     private Transform nearestEnemy;
 
 	void Awake()
@@ -24,15 +23,21 @@ public class AntMoving : MonoBehaviour
     {
         timer += Time.deltaTime;
         // Random walk
-        self=GameManager.instance.player.transform;
+        self=gameObject.transform;
         float minimumDistance = Mathf.Infinity;
         if(nearestEnemy!=null)
         {
             minimumDistance=Vector3.Distance(self.position,nearestEnemy.position);
         }
         nearestEnemy = null;
-        foreach(Transform enemy in EnemyList)
+
+        List<Transform> enemyList;
+        enemyList=GameManager.instance.discoveredEnemyList;
+
+
+        foreach(Transform enemy in enemyList)
         {
+            Debug.Log("haveenemy"+enemy);
             float distance = Vector3.Distance(self.position, enemy.position);
             if ( distance < minimumDistance)
             {
@@ -40,6 +45,8 @@ public class AntMoving : MonoBehaviour
                 nearestEnemy = enemy;
             }
         }
+        Debug.Log("Self Pos"+self.position);
+        Debug.Log("Enemy pos"+nearestEnemy);
         Debug.Log("Nearest Enemy: " + nearestEnemy + "; Distance: " + minimumDistance);
         Vector3 v3 = nearestEnemy.position - self.position;
         Vector2 v2 = new Vector2(v3.x,v3.y);
