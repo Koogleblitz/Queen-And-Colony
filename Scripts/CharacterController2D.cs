@@ -18,7 +18,7 @@ public class CharacterController2D : MonoBehaviour
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        rgbd2d.gravityScale= 0;
+        rigidbody2d.gravityScale= 0;
     }
 
     private void Update()
@@ -49,6 +49,6 @@ public class CharacterController2D : MonoBehaviour
 
     private void Move()
     {
-        rgbd2d.velocity = motionVector * speed;
+        rigidbody2d.velocity = motionVector * speed;
     }
 }
