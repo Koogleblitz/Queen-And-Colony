@@ -41,6 +41,9 @@ public class AntMoving : MonoBehaviour
             }
         }
         Debug.Log("Nearest Enemy: " + nearestEnemy + "; Distance: " + minimumDistance);
+        Vector3 v3 = nearestEnemy.position - self.position;
+        Vector2 v2 = new Vector2(v3.x,v3.y);
+        rgbd2d.velocity = v2;
     }
 
 }

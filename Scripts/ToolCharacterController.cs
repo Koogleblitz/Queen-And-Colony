@@ -31,7 +31,10 @@ public class ToolCharacterController : MonoBehaviour
 
         if(Input.GetKey("e"))
         {
-            PlaceEggs();
+            if(GameManager.instance.currentfood>0)
+            {
+                PlaceEggs();
+            }
         }
     }
 
@@ -81,7 +84,7 @@ public class ToolCharacterController : MonoBehaviour
         Debug.Log("length %d\n"+colliders.Length);
         if(colliders.Length<=1)
         {
-            GameObject.Find("FoodBar").GetComponent<FoodBar>().currentfood-=10;
+            GameManager.instance.currentfood-=10;
             Instantiate(eggs,placePosition, Quaternion.identity);
         }
     }
