@@ -2,42 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 [RequireComponent(typeof(Rigidbody2D))]
 public class CharacterController2D : MonoBehaviour
 {
-    Rigidbody2D rigidbody2d;
-    [SerializeField] float speed= 2f;
+    Rigidbody2D rgbd2d;
+    [SerializeField] float speed = 2f;
     Vector2 motionVector;
+    public Vector2 lastMotionVector;
     Animator animator;
-
-
-
-
+    public bool moving;
 
     void Awake()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();   
+        rgbd2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        rgbd2d.gravityScale= 0;
     }
 
-    // I think tis gets 
     private void Update()
     {
-        motionVector = new Vector2(
-            Input.GetAxisRaw("Horizontal"),
-            Input.GetAxisRaw("Vertical")
-        );
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical"); 
 
-        animator.SetFloat("horizontal", Input.GetAxisRaw("Horizontal"));
-        animator.SetFloat("vertical", Input.GetAxisRaw("Vertical"));
+        motionVector = new Vector2(horizontal,vertical);
+        animator.SetFloat("horizontal", horizontal);
+        animator.SetFloat("vertical",   vertical);
+
+        moving = horizontal !=0 || vertical != 0;
+        animator.SetBool("moving",moving);
+
+        if(horizontal !=0 || vertical != 0)
+        {
+            lastMotionVector = new Vector2(horizontal, vertical).normalized;
+
+            animator.SetFloat("lastHorizontal", lastMotionVector.x);
+            animator.SetFloat("lastVertical", lastMotionVector.y);
+        }
     }
+
     void FixedUpdate()
     {
         Move();
     }
-    void Move()
+
+    private void Move()
     {
-        rigidbody2d.velocity = motionVector * speed;
+        rgbd2d.velocity = motionVector * speed;
     }
 }
