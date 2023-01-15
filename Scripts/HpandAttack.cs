@@ -14,6 +14,7 @@ public class HpandAttack : MonoBehaviour
     {
         Transform self = gameObject.transform;
         GameObject nearestEnemy = GameManager.instance.FindCloestEnemy(self,side);
+        if(nearestEnemy=null) return;
         float mindist = Vector3.Distance(self.position,nearestEnemy.transform.position);
 
         Debug.Log("Min dist is "+mindist);
