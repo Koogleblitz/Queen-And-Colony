@@ -8,13 +8,14 @@ public class HpandAttack : MonoBehaviour
     public int HitPoints = 100;
     public int attackPower = 10;
     public bool side = true; // true means true enemy
+    float attackInterval = 0.5f;
+    float timeInterval = 10f;
 
     // Update is called once per frame
     void Update()
     {
         Transform self = gameObject.transform;
         GameObject nearestEnemy = GameManager.instance.FindCloestEnemy(self,side);
-        if(nearestEnemy=null) return;
         float mindist = Vector3.Distance(self.position,nearestEnemy.transform.position);
 
         Debug.Log("Min dist is "+mindist);
@@ -29,7 +30,12 @@ public class HpandAttack : MonoBehaviour
         }
         if(mindist<3.5)
         {
-            OnCombact(nearestEnemy);
+            timeInterval += Time.deltaTime;
+            if(timeInterval>attackInterval)
+            {
+                OnCombact(nearestEnemy);
+                timeInterval=0;
+            }
         }
     }
 
