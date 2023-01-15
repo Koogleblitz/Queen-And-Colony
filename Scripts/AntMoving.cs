@@ -10,6 +10,10 @@ public class AntMoving : MonoBehaviour
     Rigidbody2D rgbd2d;
     float timer = 0f;
 
+    Transform self;
+    public List<Transform> EnemyList;
+    private KdTree<Transform> enemyKdTree = new KdTree<Transform>();
+    private Transform nearestEnemy;
 
 	void Awake()
     {
@@ -17,45 +21,27 @@ public class AntMoving : MonoBehaviour
         rgbd2d.gravityScale= 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
         // Random walk
-
-        // Find enemy
-    }
-
-/*
-    // for enemy finding
-    public Transform Player;
-
-    //First add your enemy transform in C# List
-    public List<Transform> EnemyList;
-
-    private KdTree<Transform> enemyKdTree = new KdTree<Transform>();
-    private Transform nearestEnemy;
-
-    void Start()
-    {
-        // Update EnemyKdTree
-        enemyKdTree.AddAll(EnemyList);
-    }
-
-    void Update()
-    {
-        if (nearestEnemy != null)
+        self=GameManager.instance.player.transform;
+        float minimumDistance = Mathf.Infinity;
+        if(nearestEnemy!=null)
         {
-            nearestEnemy.GetComponent<MeshRenderer>().material.color = Color.green;
+            minimumDistance=Vector3.Distance(self.position,nearestEnemy.position);
         }
-
-        // get closest object
-        nearestEnemy = enemyKdTree.FindClosest(Player.position);
-
-        nearestEnemy.GetComponent<MeshRenderer>().material.color = Color.red;
-        float distance = Vector3.Distance(Player.position, nearestEnemy.position);
-        Debug.Log("Nearest Enemy: " + nearestEnemy + "; Distance: " + distance);
+        nearestEnemy = null;
+        foreach(Transform enemy in EnemyList)
+        {
+            float distance = Vector3.Distance(self.position, enemy.position);
+            if ( distance < minimumDistance)
+            {
+                minimumDistance = distance;
+                nearestEnemy = enemy;
+            }
+        }
+        Debug.Log("Nearest Enemy: " + nearestEnemy + "; Distance: " + minimumDistance);
     }
-    */
 
 }
