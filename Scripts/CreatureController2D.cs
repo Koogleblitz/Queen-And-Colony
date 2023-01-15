@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class CreatureController2D : MonoBehaviour
 {
-    //CharacterController2D playerCharacter;
     Rigidbody2D rigidbody2d;
     [SerializeField] float speed = 2f;
     Vector2 motionVector;
@@ -15,7 +14,6 @@ public class CreatureController2D : MonoBehaviour
 
     void Awake()
     {
-        //playerCharacter = GetComponent<CharacterController2D>();
         rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
