@@ -23,6 +23,7 @@ public class EggSpawnProcedure : MonoBehaviour
         if(timer>=spawntime)
         {
             Instantiate(workerants,rgbd2d.position,Quaternion.identity);
+            // GameManager.instance.antList.Add(workerants);
             Destroy(gameObject);
         }
     }

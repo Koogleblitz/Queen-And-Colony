@@ -5,19 +5,43 @@ using UnityEngine;
 public class HpandAttack : MonoBehaviour
 {
 
-    public int HitPoint = 100;
+    public int HitPoints = 100;
     public int attackPower = 10;
+    public bool side = true; // true means true enemy
 
     // Update is called once per frame
     void Update()
     {
-        if(close to enemy)        
+        Transform self = gameObject.transform;
+        GameObject nearestEnemy = GameManager.instance.FindCloestEnemy(self,side);
+        float mindist = Vector3.Distance(self.position,nearestEnemy.transform.position);
+
+        Debug.Log("Min dist is "+mindist);
+        if (HitPoints <= 1)
+        {
+            Debug.Log("This is died"+side);
+            if(side)
+                GameManager.instance.antList.Remove(gameObject);
+            else
+                GameManager.instance.enemyList.Remove(gameObject);
+            Destroy(gameObject);
+        }
+        if(mindist<3.5)
+        {
+            OnCombact(nearestEnemy);
+        }
     }
 
-    void OnCombact()
+    void OnCombact(GameObject nearestEnemy)
     {
-        // minus hp according to enemy's attackpower
+        // attack
+        nearestEnemy.SendMessage("HpChange",-attackPower);
+    }
 
+
+    public void HpChange(int num)
+    {
+        HitPoints+=num;
     }
 
 }
