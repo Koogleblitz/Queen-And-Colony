@@ -78,10 +78,9 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public int FindCloestEnemy(Transform self, bool side) // true means true enemy :)
+    public GameObject FindCloestEnemy(Transform self, bool side) // true means true enemy :)
     {
-        // GameObject nearestEnemy = null; // for that side
-        int nearind = -1;
+        GameObject nearestEnemy = null; // for that side
         List<GameObject> thelist = new List<GameObject>();
         
         if(side==true) {
@@ -91,19 +90,16 @@ public class GameManager : MonoBehaviour
             thelist = antList;
         }
         float minimumDistance = Mathf.Infinity;
-        for(int i=0;i<thelist.Length;i++)
-        // foreach(GameObject enemy in thelist)
+        foreach(GameObject enemy in thelist)
         {
-            GameObject enemy = thelist[i];
             float distance = Vector3.Distance(self.position, enemy.transform.position);
             if (distance < minimumDistance)
             {
                 minimumDistance = distance;
-                // nearestEnemy = enemy;
-                nearind = -1;
+                nearestEnemy = enemy;
             }
         }
-        return nearind;
+        return nearestEnemy;
     }
 
     public GameObject player;

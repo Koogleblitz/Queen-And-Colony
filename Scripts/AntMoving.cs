@@ -25,8 +25,7 @@ public class AntMoving : MonoBehaviour
         // timer += Time.deltaTime;
         // Random walk
         self=gameObject.transform;
-        int ind = GameManager.instance.FindCloestEnemy(self,true);
-        nearestEnemy=GameManager.instance.enemyList[ind].transform;
+        nearestEnemy=GameManager.instance.FindCloestEnemy(self,true).transform;
         Vector3 v3 = nearestEnemy.position - self.position;
         Vector2 v2 = new Vector2(v3.x,v3.y);
 
