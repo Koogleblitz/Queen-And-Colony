@@ -12,7 +12,6 @@ public class AntMoving : MonoBehaviour
 
     Transform self;
     public List<Transform> EnemyList;
-    private KdTree<Transform> enemyKdTree = new KdTree<Transform>();
     private Transform nearestEnemy;
 
 	void Awake()

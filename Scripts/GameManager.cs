@@ -31,9 +31,6 @@ public class GameManager : MonoBehaviour
     // number of waves (only if infiniteWaves is FALSE)
     [SerializeField] int numberOfWaves;
 
-
-    public static GameManager instance;
-
     int framesRemaining; // spawns wave when < 1
     int waveCount = 0;
 
